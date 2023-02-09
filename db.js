@@ -253,7 +253,7 @@ function mark(section,sub,cb) {
             doc[sub].push = date;
 
             doc.save().then(savedDoc=>{
-                if(savedDoc===doc) cb({status:1});
+                if(savedDoc===doc) cb({status:savedDoc});
                 else cb({status:-1});
             })
         }
