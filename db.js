@@ -250,10 +250,10 @@ function mark(section,sub,cb) {
 
             date = date + date_ob.getFullYear()+"-"+("0" + (date_ob.getMonth() + 1)).slice(-2) + "-"+("0" + date_ob.getDate()).slice(-2);
 
-            doc[sub].push = date;
+            doc[sub].push(date);
 
             doc.save().then(savedDoc=>{
-                if(savedDoc===doc) cb({status:savedDoc});
+                if(savedDoc===doc) cb({status:1});
                 else cb({status:-1});
             })
         }
