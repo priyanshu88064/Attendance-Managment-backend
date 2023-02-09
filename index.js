@@ -49,6 +49,10 @@ app.get('/mark/:section/:sub',(req,res)=>{
 
 })
 
+app.get('/keepAlive',(req,res)=>{
+    res.json({status:"ok"});
+})
+
 server.listen(PORT,()=>{
     console.log("Listening on Port:"+PORT);
 });
