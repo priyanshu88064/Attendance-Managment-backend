@@ -19,15 +19,15 @@ const totalSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    compilerDesign:Number,
-    compilerDesignLab:Number,
-    computerNetwork:Number,
-    fullStack:Number,
-    fullStackLab:Number,
-    elective:Number,
-    careerSkill:Number,
-    careerSkillLab:Number,
-    softwareEngLab:Number
+    compilerDesign:[String],
+    compilerDesignLab:[String],
+    computerNetwork:[String],
+    fullStack:[String],
+    fullStackLab:[String],
+    elective:[String],
+    careerSkill:[String],
+    careerSkillLab:[String],
+    softwareEngLab:[String]
 
 })
 
@@ -162,7 +162,7 @@ function getRecord(rollno,cb) {
 ;               
                             data.section = user.section;
                             data.attendance = [record.compilerDesignCount,record.compilerDesignLabCount,record.computerNetworkCount,record.fullStackCount,record.fullStackLabCount,record.electiveCount,record.careerSkillCount,record.careerSkillLabCount,record.softwareEngLabCount];
-                            data.totAttend = [total.compilerDesign,total.compilerDesignLab,total.computerNetwork,total.fullStack,total.fullStackLab,total.elective,total.careerSkill,total.careerSkillLab,total.softwareEngLab];
+                            data.totAttend = [total.compilerDesign.length,total.compilerDesignLab.length,total.computerNetwork.length,total.fullStack.length,total.fullStackLab.length,total.elective.length,total.careerSkill.length,total.careerSkillLab.length,total.softwareEngLab.length];
                             
                             data.delta = data.attendance.map(function(c,ind){
                                 return delta(c,data.totAttend[ind]);
@@ -238,4 +238,26 @@ function submitUser({date,sub,rollno},cb) {
     });
 }
 
-module.exports = {createUser,login,getRecord,submitUser};
+function mark(section,sub,cb) {
+    totalModel.findOne({section},function(err,doc){
+
+        if(err || !doc) cb({status:-1});
+
+        else {
+            let date_ob = new Date();
+
+            let date = "";
+
+            date = date + date_ob.getFullYear()+"-"+("0" + (date_ob.getMonth() + 1)).slice(-2) + "-"+("0" + date_ob.getDate()).slice(-2);
+
+            doc[sub].push = date;
+
+            doc.save().then(savedDoc=>{
+                if(savedDoc===doc) cb({status:1});
+                else cb({status:-1});
+            })
+        }
+    });
+}
+
+module.exports = {createUser,login,getRecord,submitUser,mark};

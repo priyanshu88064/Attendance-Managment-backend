@@ -3,7 +3,8 @@ const app = express();
 const server = require('http').createServer(app);
 const PORT  = process.env.PORT || 80;
 const cors = require('cors');
-const {createUser,login, getRecord, submitUser} = require('./db');
+const {createUser,login, getRecord, submitUser, mark} = require('./db');
+const { stat } = require('fs');
 
 app.use(cors());
 app.use(express.json());
@@ -38,6 +39,14 @@ app.post('/userSubmit',(req,res)=>{
     submitUser(req.body,function(status){
         res.json(status);
     })
+});
+
+app.get('/mark/:section/:sub',(req,res)=>{
+
+    mark(req.params.section,req.params.sub,function(status){
+        res.json(status);
+    });
+
 })
 
 server.listen(PORT,()=>{
