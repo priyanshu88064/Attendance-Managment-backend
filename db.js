@@ -99,8 +99,8 @@ function createUser({rollno,section},cb) {
     
     userModel.findOne({rollno},function(err,doc){
 
-        if(err) cb("Some error occured");
-        else if(doc) cb("rollno already Exists");
+        if(err) cb("Database error occured");
+        else if(doc) cb("User already Exists");
         else {
 
             userModel.create({rollno,section},function(err,newDoc){
@@ -120,7 +120,7 @@ function createUser({rollno,section},cb) {
 
 function login({rollno},cb) {
     userModel.findOne({rollno},function(err,doc){
-        if(err) cb("Some error Occured");
+        if(err) cb("Database error Occured");
         else if(doc) cb(1);
         else cb("User not registered");
     })
@@ -132,8 +132,11 @@ function getRecord(rollno,cb) {
 
     userModel.findOne({rollno},function(err,user) {
 
-        if(err || !user){
+        if(err){
             data.status = "Some error occured. Try Logging in again. ";
+            cb(data);
+        }else if(!user){
+            data.status = "User not registered ";
             cb(data);
         }
 
@@ -212,7 +215,7 @@ function submitUser({date,sub,rollno},cb) {
             attendanceModel.findOne({user:user._id},function(err,doc){
 
                 if(err || !doc){
-                    cb({status:"Some error occured."});
+                    cb({status:"Database error occured."});
                 }
 
                 else{
