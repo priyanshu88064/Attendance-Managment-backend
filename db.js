@@ -95,6 +95,18 @@ const userModel = mongoose.model('User',userSchema);
 const attendanceModel = mongoose.model('Attendance',attendanceSchema);
 const totalModel = mongoose.model('total',totalSchema);
 
+const subjects = [
+  "compilerDesign",
+  "compilerDesignLab",
+  "computerNetwork",
+  "fullStack",
+  "fullStackLab",
+  "elective",
+  "careerSkill",
+  "careerSkillLab",
+  "softwareEngLab",
+];
+
 function createUser({rollno,section},cb) {
     
     userModel.findOne({rollno},function(err,doc){
@@ -186,6 +198,15 @@ function getRecord(rollno,cb) {
 
                                 if(c>0)data.access = data.access+c;
                                 else data.required = data.required + -1*(c);
+                            });
+
+                            data.dates = subjects.map(function(sub){
+                                return {
+                                    green:record[sub],
+                                    red:total[sub].filter(function(totalItem){
+                                        return record[sub].includes(totalItem) === false;
+                                    })
+                                }
                             });
 
                             cb(data);
