@@ -27,8 +27,8 @@ const totalSchema = new mongoose.Schema({
     elective:[String],
     careerSkill:[String],
     careerSkillLab:[String],
-    softwareEngLab:[String]
-
+    softwareEngLab:[String],
+    recent:String
 })
 
 const attendanceSchema = new mongoose.Schema({
@@ -208,6 +208,8 @@ function getRecord(rollno,cb) {
                                     })
                                 }
                             });
+                            
+                            data.recent = total.recent;
 
                             cb(data);
                         }
@@ -275,6 +277,7 @@ function mark(section,sub,cb) {
             date = date + date_ob.getFullYear()+"-"+("0" + (date_ob.getMonth() + 1)).slice(-2) + "-"+("0" + date_ob.getDate()).slice(-2);
 
             doc[sub].push(date);
+            doc.recent = sub;
 
             doc.save().then(savedDoc=>{
                 if(savedDoc===doc) cb({status:1});

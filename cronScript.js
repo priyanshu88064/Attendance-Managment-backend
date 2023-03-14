@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const section = "L";
+const section = "I";
 
 const week = {
     "sunday":0,
@@ -29,11 +29,27 @@ const week = {
 //   "sample2 tuesday 16 5",
 //   "sample1 sunday 17 55",
 
+// const subjects = [
+//   "computerNetwork monday 8 0",
+//   "compilerDesign monday 8 55",
+//   "fullStackLab monday 10 10",
+//   "fullStack monday 12 55",
+//   "careerSkill monday 3 5",
+//   "elective tuesday 12 55",
+//   "computerNetwork tuesday 3 5",
+//   "careerSkill tuesday 4 10",
+//   "compilerDesignLab wednesday 8 55",
+//   "softwareEngLab wednesday 1 5",
+//   "fullStack wednesday 12 55",
+//   "compilerDesign wednesday 2 10",
+//   "computerNetwork wednesday 3 5",
+//   "elective thursday 12 55",
+//   "fullStack thursday 2 10",
+//   "careerSkillLab thursday 3 5",
+//   "compilerDesign friday 12 0",
+// ];
 const subjects = [
-  "sample1 monday 11 5",
-  "sample2 tuesday 16 5",
-  "sample2 tuesday 16 5",
-  "sample1 sunday 17 55",
+ "fullStack friday 2 10"
 ];
 
 const jobs = subjects.map(item=>{
@@ -59,7 +75,9 @@ jobs.forEach(item=>{
             },
             body:JSON.stringify(item)
         }
-        fetch(process.env.CRON_SERVER+"/jobs",option).then(res=>console.log(res).then(res=>console.log(res)));
-    }, 13000);  
+        fetch(process.env.CRON_SERVER+"/jobs",option).then(res=>{
+            console.log(res);
+        });
+    }, 100);  
 });
 
