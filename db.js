@@ -208,6 +208,7 @@ function getRecord(rollno,cb) {
                                     })
                                 }
                             });
+                            data.totalArray = total;
                             
                             data.recent = total.recent;
 
